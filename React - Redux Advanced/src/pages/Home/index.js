@@ -33,6 +33,8 @@ function Home({ amount, addToCartRequest }) {
     addToCartRequest(id);
   }
 
+  console.log(products);
+
   return (
     <ProductList>
       {products.map((product) => (
