@@ -15,3 +15,9 @@ container.registerSingleton<IUsersRepository>(
   'UsersRepository',
   UsersRepository,
 );
+
+container.registerSingleton<IUsersRepository>(
+  // Can be any name
+  'UsersRepository',
+  UsersRepository,
+);

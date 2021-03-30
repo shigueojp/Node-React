@@ -12,12 +12,10 @@ interface IRequestDTO {
 
 @injectable()
 class CreateAppointmentService {
-  @inject('AppointmentsRepository')
-  private appointmentsRepository: IAppointmentsRepository;
-
-  constructor(appointmentsRepository: IAppointmentsRepository) {
-    this.appointmentsRepository = appointmentsRepository;
-  }
+  constructor(
+    @inject('AppointmentsRepository')
+    private appointmentsRepository: IAppointmentsRepository,
+  ) {}
 
   public async execute({
     date,

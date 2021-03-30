@@ -11,12 +11,12 @@ interface IRequest {
 
 @injectable()
 export default class CreateUserServices {
-  @inject('UsersRepository')
-  private usersRepository: IUsersRepository;
+  
 
-  constructor(usersRepository: IUsersRepository) {
-    this.usersRepository = usersRepository;
-  }
+  constructor(
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository
+    ) {}
 
   async execute({ name, email, password }: IRequest): Promise<User> {
     const checkUserExists = await this.usersRepository.findByEmail(email);

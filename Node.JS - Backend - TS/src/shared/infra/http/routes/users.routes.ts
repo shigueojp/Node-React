@@ -7,13 +7,13 @@ import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepo
 
 const usersRouter = Router();
 
-// usersRouter.get('/', async (req, res) => {
-//   // const appointmentsRepository = getCustomRepository(AppointmentsRepository);
-//   // const appointments = await appointmentsRepository.find();
-//   const usersRepository = new UsersRepository();
-//   const users = await usersRepository.find();
-//   return res.json(users);
-// });
+usersRouter.get('/', async (req, res) => {
+  // const appointmentsRepository = getCustomRepository(AppointmentsRepository);
+  // const appointments = await appointmentsRepository.find();
+  const usersRepository = new UsersRepository();
+  const users = await usersRepository.find();
+  return res.json(users);
+});
 
 usersRouter.post('/', async (req, res) => {
   try {

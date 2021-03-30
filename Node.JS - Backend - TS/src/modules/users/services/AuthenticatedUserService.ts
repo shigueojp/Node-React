@@ -11,14 +11,13 @@ interface IRequest {
   password: string;
 }
 
+// Vai ser injetável para ocorrer a injeção de dependência
 @injectable()
 class AuthenticatedUserService {
-  @inject('UsersRepository')
-  private usersRepository: IUsersRepository;
-
-  constructor(usersRepository: IUsersRepository) {
-    this.usersRepository = usersRepository;
-  }
+  constructor(
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository
+  ) {}
 
   public async execute({
     email,
