@@ -1,8 +1,9 @@
-import { Router } from 'express';
+import { response, Router } from 'express';
 import { container } from 'tsyringe';
 import CreateUserServices from '@modules/users/services/CreateUserService';
 import uploadConfig from '@config/upload';
 import multer from 'multer';
+import UpdateUserAvatarService from '@modules/users/services/UpdateUserAvatarService';
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 
 const usersRouter = Router();
@@ -16,18 +17,14 @@ const upload = multer(uploadConfig);
 // });
 
 usersRouter.post('/', async (req, res) => {
-  try {
-    const { name, email, password } = req.body;
+  const { name, email, password } = req.body;
 
-    const createUser = container.resolve(CreateUserServices);
-    const user = await createUser.execute({ name, email, password });
+  const createUser = container.resolve(CreateUserServices);
+  const user = await createUser.execute({ name, email, password });
 
-    delete user.password;
+  delete user.password;
 
-    return res.json(user);
-  } catch (err) {
-    return res.status(400).json({ error: err.message });
-  }
+  return res.json(user);
 });
 
 // Colocar middleware em uma rota via Express
@@ -36,7 +33,14 @@ usersRouter.patch(
   ensureAuthenticated,
   upload.single('avatar'),
   async (req, res) => {
-    return res.json({ ok: true });
+    const updateUserAvatar = container.resolve(UpdateUserAvatarService);
+
+    const user = await updateUserAvatar.execute({
+      user_id: req.user.id,
+      avatarFilename: req.file.filename,
+    });
+
+    return res.json(user);
   },
 );
 
