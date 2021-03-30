@@ -1,13 +1,12 @@
-import { response, Router } from 'express';
-import { getRepository } from 'typeorm';
+import { Router } from 'express';
 import { container } from 'tsyringe';
-import User from '@modules/users/infra/typeorm/entities/User';
 import CreateUserServices from '@modules/users/services/CreateUserService';
-import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
-import ensureAuthenticated from '../middlewares/ensureAuthenticated'
+import uploadConfig from '@config/upload';
+import multer from 'multer';
+import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 
 const usersRouter = Router();
-
+const upload = multer(uploadConfig);
 // usersRouter.get('/', async (req, res) => {
 //   // const appointmentsRepository = getCustomRepository(AppointmentsRepository);
 //   // const appointments = await appointmentsRepository.find();
@@ -32,8 +31,13 @@ usersRouter.post('/', async (req, res) => {
 });
 
 // Colocar middleware em uma rota via Express
-usersRouter.patch('/avatar', ensureAuthenticated, async (req, res) => {
-  return res.json({ok: true})
-})
+usersRouter.patch(
+  '/avatar',
+  ensureAuthenticated,
+  upload.single('avatar'),
+  async (req, res) => {
+    return res.json({ ok: true });
+  },
+);
 
 export default usersRouter;
